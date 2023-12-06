@@ -1,16 +1,16 @@
-# This is a sample Python script.
+import pandas as pd
+import dash as d
+import plotly as pl
 
-# Press Maj+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
+def main():
+    print_hi('PyCharm')
 def print_hi(name):
     # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
+    print('Hi, {}'.format(name))  # Press Ctrl+F8 to toggle the breakpoint.
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    main()
 
+    #f = pd.read_csv('radars.csv')
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
