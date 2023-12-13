@@ -1,4 +1,4 @@
-date_installation;departement;latitude;longitude;vitesse_vehicules_legers_kmh;id;emplacement
+date_installation;departement;latitude;longitude;vitesse_vehicule_legers_kmh;id;emplacement
 2010-02-12T00:00:00Z;57;49.11907;6.20408;;12923;METZ
 2003-11-05T00:00:00Z;80;49.95842;2.85479;130;13598;HEM MONACU
 2003-10-31T00:00:00Z;91;48.67029;2.27976;70;13599;LA VILLE DU BOIS
@@ -3348,4 +3348,4 @@ date_installation;departement;latitude;longitude;vitesse_vehicules_legers_kmh;id
 2017-10-11T00:00:00Z;86;46.508771;0.471131;;16943;
 2017-02-10T00:00:00Z;87;45.891151;1.280403;;16944;
 2016-12-13T00:00:00Z;88;48.198949;6.476978;;16945;
-2016-12-05T00:00:00Z;90;47.573626;7.494679;;16946;
+2016-12-05T00:00:00Z;90;47.573626;7.494679;;;
