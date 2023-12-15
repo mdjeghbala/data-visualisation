@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 # On place les données du fichier CSV dans une DataFrame
-radars = pd.read_csv('radars.csv', sep=';')
+radars = pd.read_csv('../radars.csv', sep=';')
 
 # On renomme la colonne pour une appelation plus courte et explicite
 radars = radars.rename(columns={'vitesse_vehicule_legers_kmh': 'vitesse_max'})

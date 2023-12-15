@@ -4,7 +4,7 @@ import branca.colormap as cm
 
 # Lecture du fichier csv
 
-radars_data = pd.read_csv("radars.csv", sep=';')
+radars_data = pd.read_csv("../radars.csv", sep=';')
 
 # Suppression des départements contenant des valeurs vides
 radars_data = radars_data.dropna(subset=['departement'])

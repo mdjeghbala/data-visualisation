@@ -8,7 +8,7 @@ if __name__ == '__main__':
     app.layout = html.Div([
         dcc.Markdown("# Le nombre de radars par département"),
         # Intégration de la carte
-        html.Iframe(srcDoc=open('templates/radar_map_count_by_department.html', 'r').read(), width='100%', height='600'),
+        html.Iframe(srcDoc=open('templates/radars_map_count_by_department.html', 'r').read(), width='100%', height='600'),
     ])
 
     # Lancement de l'application
