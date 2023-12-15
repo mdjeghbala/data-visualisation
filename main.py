@@ -1,55 +1,18 @@
-import plotly_express as px
-
-import dash
-import dash_core_components as dcc
-from dash import html
-
-#
-# Data
-#
-
-year = 2002
-
-gapminder = px.data.gapminder() # (1)
-years = gapminder["year"].unique()
-data = { year:gapminder.query("year == @year") for year in years} # (2)
-
-#
-# Main
-#
+from dash import Dash, dcc, html
+from map import create_radars_numbers_map
 
 if __name__ == '__main__':
 
-    app = dash.Dash(__name__) # (3)
+    # Création de l'application du dashboard
+    app = Dash(__name__)
 
-    fig = px.scatter(data[year], x="gdpPercap", y="lifeExp",
-                        color="continent",
-                        size="pop",
-                        hover_name="country") # (4)
+    # Creation de la carte radar folium
+    card = create_radars_numbers_map('radars.csv')
+    app.layout = html.Div([
+        dcc.Markdown("# Le nombre de radars par département"),
+        # Intégration de la carte
+        html.Iframe(srcDoc=open('templates/radar_map_count_by_department.html', 'r').read(), width='100%', height='600'),
+    ])
 
-
-    app.layout = html.Div(children=[
-
-                            html.H1(children=f'Life expectancy vs GDP per capita ({year})',
-                                        style={'textAlign': 'center', 'color': '#7FDBFF'}), # (5)
-
-                            dcc.Graph(
-                                id='graph1',
-                                figure=fig
-                            ), # (6)
-
-                            html.Div(children=f'''
-                                The graph above shows relationship between life expectancy and
-                                GDP per capita for year {year}. Each continent data has its own
-                                colour and symbol size is proportionnal to country population.
-                                Mouse over for details.
-                            '''), # (7)
-
-    ]
-    )
-
-    #
-    # RUN APP
-    #
-
-    app.run_server(debug=True) # (8)
+    # Lancement de l'application
+    app.run_server(debug=True)
