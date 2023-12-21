@@ -37,17 +37,17 @@ def affiche_diagramme_date_install(fichier_csv):
     # Calcul des positions des barres pour chaque année
     bar_positions = data['annee'].value_counts().sort_index().index
 
-    # Création de l'histogramme
+    # Création du diagramme
     plt.figure(figsize=(8, 6))
     plt.hist(data['annee'], bins=bar_positions, color='#78B7C5', edgecolor='black', linewidth=1.5)
 
-    # Barres de l'histogramme
+    # Barres du diagramme
     barres = plt.gca().patches
 
     # Ajout des pourcentages
     affichePourcentage(barres, fichier_csv)
 
-    # On donne un nom à l'histogramme ainsi que les axes
+    # On donne un nom au diagramme ainsi que les axes
     plt.title('Nombre de radars installé par année')
     plt.xlabel('Année de création')
     plt.ylabel('Nombre de radars')

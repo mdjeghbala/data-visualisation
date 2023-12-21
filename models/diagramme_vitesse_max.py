@@ -28,17 +28,17 @@ def affiche_diagramme_vitesse_max(fichier_csv):
     # On définie les emplacements des barres pour chaque dizaine
     bins = np.arange(0, radars['vitesse_max'].max() + 10, 10)
 
-    # Création de l'histogramme
+    # Création du diagramme
     plt.figure(figsize=(8, 6))
     plt.hist(radars['vitesse_max'], bins=10, color='#78B7C5', edgecolor='black', width=5, linewidth=1.5)
 
-    # Barres de l'histogramme
+    # Barres du diagramme
     barres = plt.gca().patches
 
     # Ajout des pourcentages
     affichePourcentage(barres, fichier_csv)
 
-    # On donne un nom à l'histogramme ainsi que les axes
+    # On donne un nom au diagramme ainsi que les axes
     plt.title('Analyse des vitesses maximales des radars routiers en France')
     plt.xlabel('Vitesse maximale (km/h)')
     plt.ylabel('Nombre de radars')

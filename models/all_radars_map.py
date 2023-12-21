@@ -3,7 +3,7 @@ import folium
 from folium.plugins import MarkerCluster
 
 # Lecture du fichier csv
-radars_data = pd.read_csv("../radars.csv", sep=';')
+radars_data = pd.read_csv("../assets/data/radars.csv", sep=';')
 
 # Suppression des lignes avec des valeurs vides pour latitude ou longitude
 radars_data = radars_data.dropna(subset=['latitude', 'longitude', 'vitesse_vehicule_legers_kmh'])

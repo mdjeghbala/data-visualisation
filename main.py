@@ -1,9 +1,9 @@
 from dash import Dash, dcc, html
 
 import plotly_express as px
-from histogramme_date_installation import affiche_diagramme_date_install
-from histogramme_vitesse_max import affiche_diagramme_vitesse_max
-from histogramme_exces_de_vitesse import affiche_histo_exces_de_vitesse
+from models.diagramme_date_installation import affiche_diagramme_date_install
+from models.diagramme_vitesse_max import affiche_diagramme_vitesse_max
+from models.histogramme_exces_de_vitesse import affiche_histo_exces_de_vitesse
 
 if __name__ == '__main__':
     # Création de l'application du dashboard
