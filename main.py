@@ -1,55 +1,14 @@
 import plotly_express as px
-
+from histogramme_date_installation import affiche_diagramme_date_install
+from histogramme_vitesse_max import affiche_diagramme_vitesse_max
+from histogramme_exces_de_vitesse import affiche_histo_exces_de_vitesse
 import dash
 from dash import dcc
 from dash import html
 
 #
 # Data
-#
 
-year = 2002
-
-gapminder = px.data.gapminder() # (1)
-years = gapminder["year"].unique()
-data = { year:gapminder.query("year == @year") for year in years} # (2)
-
-#
-# Main
-#
-
-if __name__ == '__main__':
-
-    app = dash.Dash(__name__) # (3)
-
-    fig = px.scatter(data[year], x="gdpPercap", y="lifeExp",
-                        color="continent",
-                        size="pop",
-                        hover_name="country") # (4)
-
-
-    app.layout = html.Div(children=[
-
-                            html.H1(children=f'Life expectancy vs GDP per capita ({year})',
-                                        style={'textAlign': 'center', 'color': '#7FDBFF'}), # (5)
-
-                            dcc.Graph(
-                                id='graph1',
-                                figure=fig
-                            ), # (6)
-
-                            html.Div(children=f'''
-                                The graph above shows relationship between life expectancy and
-                                GDP per capita for year {year}. Each continent data has its own
-                                colour and symbol size is proportionnal to country population.
-                                Mouse over for details.
-                            '''), # (7)
-
-    ]
-    )
-
-    #
-    # RUN APP
-    #
-
-    app.run_server(debug=True) # (8)
+#affiche_diagramme_date_install('radars.csv')
+affiche_histo_exces_de_vitesse('opendata-vitesse.csv')
+#affiche_diagramme_vitesse_max('radars.csv')
