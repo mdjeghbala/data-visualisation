@@ -1,48 +1,47 @@
-import numpy as np
-import matplotlib.pyplot as plt
 import pandas as pd
+import plotly.express as px
 
-# Fonction pour mettre les pourcentages
-def affichePourcentage(barres, fichier_csv):
-    # On place les données du fichier CSV dans une DataFrame
-    radars = pd.read_csv(fichier_csv, sep=';')
-    radars = radars.rename(columns={'vitesse_vehicule_legers_kmh': 'vitesse_max'})
+class DiagrammeVitesse:
 
-    for barre in barres:
-        height = barre.get_height()
-        percentage = '{:.1f}%'.format(100 * height / len(radars['vitesse_max']))      #calcule le pourcentage
-        plt.text(barre.get_x() + barre.get_width() / 2, height, percentage,           #place le texte au dessus de chaque barre au milieu
-                 ha='center', va='bottom')
+    # Constructeur de la classe DiagrammeVitesse
+    def __init__(self, fichier_csv):
+            self.fichier_csv = fichier_csv
 
-# Fonction qui affiche le diagramme sur les vitesses max des radars
-def affiche_diagramme_vitesse_max(fichier_csv):
-    # On place les données du fichier CSV dans une DataFrame
-    radars = pd.read_csv(fichier_csv, sep=';')
 
-    # On renomme la colonne pour une appelation plus courte et explicite
-    radars = radars.rename(columns={'vitesse_vehicule_legers_kmh': 'vitesse_max'})
+    # Fonction qui affiche le diagramme sur les vitesses max des radars
+    def affiche_diagramme_vitesse_max(self):
+        # On place les données du fichier CSV dans une DataFrame
+        radars = pd.read_csv(self.fichier_csv, sep=';')
 
-    # On supprime les lignes où la vitesse n'est pas renseignée (NaN)
-    radars = radars.dropna(subset=['vitesse_max'])
+        # On renomme la colonne pour une appelation plus courte et explicite
+        radars = radars.rename(columns={'vitesse_vehicule_legers_kmh': 'vitesse_max'})
 
-    # On définie les emplacements des barres pour chaque dizaine
-    bins = np.arange(0, radars['vitesse_max'].max() + 10, 10)
+        # On supprime les lignes où la vitesse n'est pas renseignée (NaN)
+        radars = radars.dropna(subset=['vitesse_max'])
 
-    # Création du diagramme
-    plt.figure(figsize=(8, 6))
-    plt.hist(radars['vitesse_max'], bins=10, color='#78B7C5', edgecolor='black', width=5, linewidth=1.5)
+        # Création de l'histogramme
+        fig = px.histogram(
+            radars,
+            x='vitesse_max',
+            nbins=10,
+            title='Analyse des vitesses maximales des radars routiers en France',
+            labels={'vitesse_max': 'Vitesse maximale (km/h)'},
+            color_discrete_sequence=['#78B7C5'],
+            height=450
+        )
 
-    # Barres du diagramme
-    barres = plt.gca().patches
+        # Permet le formattage des barres
+        fig.update_traces(marker_line_color='black', marker_line_width=1)
 
-    # Ajout des pourcentages
-    affichePourcentage(barres, fichier_csv)
+        # Donne un nom à l'axe des ordonnées et ajuste le titre
+        fig.update_layout(yaxis_title='Nombre de radars',
+                            title = dict(
+                                text='Analyse des vitesses maximales des radars routiers en France',
+                                x=0.5,  # Met le titre au centre
+                                y=0.9,  # Met le titre en haut
+                                xanchor='center',
+                                yanchor='top',
+                            )
+                        )
 
-    # On donne un nom au diagramme ainsi que les axes
-    plt.title('Analyse des vitesses maximales des radars routiers en France')
-    plt.xlabel('Vitesse maximale (km/h)')
-    plt.ylabel('Nombre de radars')
-
-    plt.grid(color='gray', linestyle='--', linewidth=0.5)
-    plt.xticks(bins, rotation=45)
-    plt.show()
+        return fig
