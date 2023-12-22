@@ -17,3 +17,10 @@ Install the requirements
 ```bash
 pip install -r requirements.txt
 ```
+# Launch
+
+Execute this command
+
+```bash
+python main.py
+```
