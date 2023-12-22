@@ -9,7 +9,7 @@ radars_data = pd.read_csv("../assets/data/radars.csv", sep=';')
 radars_data = radars_data.dropna(subset=['latitude', 'longitude', 'vitesse_vehicule_legers_kmh'])
 
 # Création de la carte folium avec clustering
-radar_map = folium.Map(location=[radars_data['latitude'].mean(), radars_data['longitude'].mean()], zoom_start=6)
+radar_map = folium.Map(location=[radars_data['latitude'].mean(), radars_data['longitude'].mean()], zoom_start=5)
 marker_cluster = MarkerCluster().add_to(radar_map)
 
 # Ajout des marqueurs pour chaque radar

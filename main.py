@@ -9,10 +9,11 @@ if __name__ == '__main__':
     # Création de l'application du dashboard
     app = Dash(__name__)
 
-    app.layout = html.Div([
+    # Définir la couleur de fond du body
+    app.layout = html.Div(style={'backgroundColor': '#20283E'}, children=[
         html.Div(
             style={
-                "backgroundColor": "#b3dacb",
+                "backgroundColor": "#4B587B",
                 "color": "#ffffff",
                 "padding": "10px",
                 "display": "flex",
@@ -44,11 +45,21 @@ if __name__ == '__main__':
                 ),
             ],
         ),
-        dcc.Markdown("# Le nombre de radars par département"),
 
-        # Intégration de la carte
-        html.Iframe(srcDoc=open('templates/radars_map_count_by_department.html', 'r').read(), width='40%',
-                    height='475'),
+        html.Div([
+            html.Div("Le nombre de radars par département", style={'color': 'white', 'font-size': '30px', 'margin': 'auto'}),
+            html.Div("Position de tous les radars", style={'color': 'white', 'font-size': '30px', 'margin': 'auto'}),
+        ], style={'display': 'flex', 'justifyContent': 'space-between', 'margin': '20px'}),
+
+        # Conteneur pour aligner les éléments sur la même ligne avec des marges aux extrémités
+        html.Div([
+            # Intégration de la carte de radars par département
+            html.Iframe(srcDoc=open('templates/radars_map_count_by_department.html', 'r').read(), width='47.5%',
+                        height='500px'),
+
+            # Intégration de la deuxième carte affichant tout les radars
+            html.Iframe(srcDoc=open('templates/all_radars_map.html', 'r').read(), width='47.5%',height='500px'),
+        ], style={'display': 'flex', 'justifyContent': 'space-between', 'margin': '20px'})
     ])
 
     # Lancement de l'application
