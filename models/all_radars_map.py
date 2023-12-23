@@ -17,7 +17,7 @@ for index, row in radars_data.iterrows():
     # Ajout d'un marqueur pour chaque radar au cluster
     folium.Marker(
         location=[row['latitude'], row['longitude']],
-        popup=f"Département: {row['departement']} \n Ville: {row['emplacement']} \n Vitesse max: {int(row['vitesse_vehicule_legers_kmh'])} km/h "
+        popup=f"Departement: {row['departement']} \n Ville: {row['emplacement']} \n Vitesse max: {int(row['vitesse_vehicule_legers_kmh'])} km/h "
     ).add_to(marker_cluster)
 
 # Enregistrement de la carte en tant que fichier HTML
