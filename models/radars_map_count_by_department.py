@@ -2,49 +2,66 @@ import pandas as pd
 import folium
 import branca.colormap as cm
 
-# Lecture du fichier csv
 
-radars_data = pd.read_csv("../assets/data/radars.csv", sep=';')
+class RadarMapCountByDepartment:
+    def __init__(self, csv_path, output_file="radars_map_count_by_department.html"):
+        # Initialisation de la classe
+        self.colormap = None # Pour stocker la colormap
+        self.radars_data = pd.read_csv(csv_path, sep=';', encoding='utf-8') # Lecture des données à partir du fichier CSV
+        self.output_file = output_file # Nom du fichier de sortie par défaut
+        self._clean_data() # Nettoyage des données
+        self._aggregate_data() # Agrégation des données
 
-# Suppression des départements contenant des valeurs vides
-radars_data = radars_data.dropna(subset=['departement'])
+    def _clean_data(self):
+        # Méthode pour nettoyer les données : suppression des lignes avec des valeurs vides pour le département
+        self.radars_data = self.radars_data.dropna(subset=['departement'])
 
-# Agrégation des données par département (nombre total de radars par département)
-aggregated_data = radars_data.groupby('departement').size().reset_index(name='radar_count')
+    def _aggregate_data(self):
+        # Méthode pour agréger les données par département et compter le nombre de radars
+        self.aggregated_data = self.radars_data.groupby('departement').size().reset_index(name='radar_count')
 
-# Création de la colormap du bleu au rouge selon le nombre de radars par département
-colormap = cm.LinearColormap(['yellow', 'red'], vmin=min(aggregated_data['radar_count']), vmax=max(aggregated_data['radar_count']))
+    def _create_colormap(self):
+        # Méthode pour créer une colormap en fonction du nombre de radars par département
+        return cm.LinearColormap(['yellow', 'red'],
+                                 vmin=min(self.aggregated_data['radar_count']),
+                                 vmax=max(self.aggregated_data['radar_count']))
 
-# Création de la carte folium
-radar_map = folium.Map(location=[radars_data['latitude'].mean(), radars_data['longitude'].mean()], zoom_start=5)
+    def _add_markers(self, radar_map):
+        # Méthode pour ajouter des marqueurs (cercles) à la carte
+        for index, row in self.aggregated_data.iterrows():
+            color_by_department = self.colormap(row['radar_count'])
+            circle_radius = row['radar_count'] * 0.125
 
-# Ajout des marqueurs pour les départements
-for index, row in aggregated_data.iterrows():
+            folium.CircleMarker(
+                location=[
+                    self.radars_data.loc[self.radars_data['departement'] == row['departement'], 'latitude'].mean(),
+                    self.radars_data.loc[self.radars_data['departement'] == row['departement'], 'longitude'].mean()],
+                radius=circle_radius,
+                color=color_by_department,
+                fill=True,
+                fill_color=color_by_department,
+                fill_opacity=0.6,
+                tooltip=f"Numéro département: {row['departement']} Nombre total radars: {row['radar_count']}"
+            ).add_to(radar_map)
 
-    # Récupération de la couleur en fonction du nombre de radars dans le département
-    color_by_department = colormap(row['radar_count'])
+    def _add_legend(self, radar_map):
+        # Méthode pour ajouter une légende à la carte
+        self.colormap.caption = 'Nombre de radars par département'
+        self.colormap.add_to(radar_map)
 
-    # Calcul de la taille du cercle en fonction du nombre de radars
-    circle_radius = row['radar_count'] * 0.125
+    def generate_radar_map(self):
+        # Méthode pour générer la carte avec les marqueurs et la légende
+        self.colormap = self._create_colormap()
 
-    # Ajout d'un cercle coloré pour représenter le département avec le nombre de radars
-    folium.CircleMarker(
-        # Représentation du cercle à la moyenne des coordonnées géodésiques afin de le centrer
-        location=[radars_data.loc[radars_data['departement'] == row['departement'], 'latitude'].mean(),
-                  radars_data.loc[radars_data['departement'] == row['departement'], 'longitude'].mean()],
-        radius=circle_radius,
-        color=color_by_department,
-        fill=True,
-        fill_color=color_by_department,
-        fill_opacity=0.6,  # Réduction de l'opacité pour mieux voir les cercles
-        #  Affichage d'une pop up pour chaque département indiquant son numéro et le nombre total de radars
-        popup=f"{row['departement']} Departement\nTotal radars: {row['radar_count']}"
-    ).add_to(radar_map)
+        radar_map = folium.Map(location=[self.radars_data['latitude'].mean(), self.radars_data['longitude'].mean()],
+                               zoom_start=5)
 
-# Ajout de la légende de la colormap à la carte
-colormap.caption = 'Nombre de radars par département'
-colormap.add_to(radar_map)
+        self._add_markers(radar_map)
+        self._add_legend(radar_map)
 
-# Enregistrement de la carte en tant que fichier HTML
-radar_map.save("radars_map_count_by_department.html")
+        radar_map.save(self.output_file)
 
+
+# Utilisation de la classe
+radar_map_generator = RadarMapCountByDepartment("../assets/data/radars.csv")
+radar_map_generator.generate_radar_map()
