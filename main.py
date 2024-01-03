@@ -1,10 +1,11 @@
-from dash import Dash, dcc, html
+from dash import Dash, dcc, html, Input, Output
 from models.diagramme_date_installation import DiagrammeDate
 from models.diagramme_vitesse_max import DiagrammeVitesse
 from models.histogramme_exces_de_vitesse import Histogramme
 
 if __name__ == '__main__':
-    # Création de l'application du dashboard
+
+    # Initialisation de l'application
     app = Dash(__name__)
 
     # Création de l'histogramme
@@ -17,8 +18,13 @@ if __name__ == '__main__':
     diagramme_date = DiagrammeDate('assets/data/radars.csv')
     fig_diagramme_da = diagramme_date.affiche_diagramme_date_install()
 
+    # Liste des options pour la carte
+    card_options = [
+        {'label': 'Carte par département', 'value': 'department_map'},
+        {'label': 'Tous les radars', 'value': 'all_radars_map'}
+    ]
 
-    # Définir la couleur de fond du body
+    # Mise en place du layout de l'application
     app.layout = html.Div(style={'backgroundColor': '#20283E'}, children=[
         html.Div(
             style={
@@ -55,7 +61,7 @@ if __name__ == '__main__':
                                         "margin-top": "5px",
                                         "width": "fit-content",
                                         "box-shadow": "2px 2px 5px 2px rgba(0, 0, 0, 0.2)",
-                                        "font-size": "2em"  # Taille du texte augmentée
+                                        "font-size": "2em" # Taille du texte augmentée
                                     }
                                 ),
                             ],
@@ -75,41 +81,39 @@ if __name__ == '__main__':
             [
                 html.Div(
                     [
-                        "Ce DashBoard vous propose de visualiser l'ensemble des radars dont la France dispose, que ce soit en France métropolitaine ou en France d'outre-mers.",
+                        "Ce DashBoard vous propose de visualiser l'ensemble des radars dont la France dispose, "
+                        "que ce soit en France métropolitaine ou en France d'outre-mers.",
                         html.Br(),
-                        "Vous pourrez observer le nombre de radars par département, leur emplacement et quelques statistiques assez intéressantes!"
+                        "Vous pourrez observer le nombre de radars par département, leur emplacement et quelques "
+                        "statistiques assez intéressantes!"
                     ],
                     style={
                         "backgroundColor": "#4B587B",
-                        "color": "#ffffff",  # Couleur du texte en blanc
+                        "color": "#ffffff", # Couleur du texte en blanc
                         "borderRadius": "15px",
                         "padding": "10px",
                         "margin": "auto",
-                        "marginTop": "20px",
+                        "marginTop": '20px',
                         "width": "fit-content",
                         "box-shadow": "2px 2px 5px 2px rgba(0, 0, 0, 0.2)",
-                        "text-align": "center"  # Centrage du texte à l'intérieur du rectangle
+                        "text-align": "center" # Centrage du texte à l'intérieur du rectangle
                     }
                 ),
             ]
         ),
 
+        # Liste déroulante pour choisir la carte
         html.Div([
-            html.Div("Le nombre de radars par département",
-                     style={'color': 'white', 'font-size': '30px', 'margin': 'auto'}),
-            html.Div("Position de tous les radars",
-                     style={'color': 'white', 'font-size': '30px', 'margin': 'auto'}),
-        ], style={'display': 'flex', 'justifyContent': 'space-between', 'margin': '20px'}),
+            dcc.Dropdown(
+                id='card-dropdown',
+                options=card_options,
+                value=card_options[0]['value'],
+                style={'width': '50%', 'margin': 'auto'}
+            )
+        ], style={'textAlign': 'center', 'marginBottom': '20px', 'marginTop': '20px'}),
 
-        # Conteneur pour aligner les éléments sur la même ligne avec des marges aux extrémités
-        html.Div([
-            # Intégration de la carte de radars par département
-            html.Iframe(srcDoc=open('templates/radars_map_count_by_department.html', 'r', encoding='utf-8').read(), width='47.5%',height='500px'),
-
-            # Intégration de la deuxième carte affichant tout les radars
-            html.Iframe(srcDoc=open('templates/all_radars_map.html', 'r', encoding='utf-8').read(), width='47.5%', height='500px'),
-        ], style={'display': 'flex', 'justifyContent': 'space-between', 'margin': '20px'}),
-
+        # Conteneur pour la carte
+        html.Div(id='card-container', style={'marginLeft': '100px', 'marginRight': '100px'}),
 
         # Ajout de l'histogramme et diagramme date
         html.Div([
@@ -133,12 +137,28 @@ if __name__ == '__main__':
         html.Div([
             dcc.Graph(
                 figure=fig_diagramme_vi,
-                # Mise en place du style ( marge, espace pris)
                 style={"width": "60%", "borderRadius": "15px", "border": "2px solid #ccc", "overflow": "hidden",
                        "marginTop": "20px", "marginbottom": "20px"}
             ),
         ], style={"display": "flex", "justifyContent": "center", "flexDirection": "row"}),
     ])
+
+    # Callback pour mettre à jour la carte en fonction de la sélection de l'utilisateur
+    @app.callback(
+        Output('card-container', 'children'),
+        [Input('card-dropdown', 'value')]
+    )
+    def update_card(selected_card):
+        if selected_card == 'department_map':
+            return html.Iframe(
+                srcDoc=open('templates/radars_map_count_by_department.html', 'r', encoding='utf-8').read(),
+                width='100%', height='500px')
+        elif selected_card == 'all_radars_map':
+            return html.Iframe(srcDoc=open('templates/all_radars_map.html', 'r', encoding='utf-8').read(), width='100%',
+                               height='500px')
+        else:
+            return html.Div('Sélectionnez une carte à afficher.')
+
 
     # Lancement de l'application
     app.run_server(debug=True)
