@@ -104,10 +104,10 @@ if __name__ == '__main__':
         # Conteneur pour aligner les éléments sur la même ligne avec des marges aux extrémités
         html.Div([
             # Intégration de la carte de radars par département
-            html.Iframe(srcDoc=open('templates/radars_map_count_by_department.html', 'r').read(), width='47.5%',height='500px'),
+            html.Iframe(srcDoc=open('templates/radars_map_count_by_department.html', 'r', encoding='utf-8').read(), width='47.5%',height='500px'),
 
             # Intégration de la deuxième carte affichant tout les radars
-            html.Iframe(srcDoc=open('templates/all_radars_map.html', 'r').read(), width='47.5%', height='500px'),
+            html.Iframe(srcDoc=open('templates/all_radars_map.html', 'r', encoding='utf-8').read(), width='47.5%', height='500px'),
         ], style={'display': 'flex', 'justifyContent': 'space-between', 'margin': '20px'}),
 
 

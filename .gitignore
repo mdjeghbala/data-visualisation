@@ -1,0 +1,6 @@
+/shelf/
+/workspace.xml
+env/
+.idea/
+__pycache__/
+models/__pycache__/
