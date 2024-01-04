@@ -1,14 +1,29 @@
 import pandas as pd
 import plotly.express as px
 
-class DiagrammeDate:
 
+class DiagrammeDate:
+    """
+    Classe permettant de créer un diagramme basé sur les dates d'installation des radars à partir d'un fichier CSV.
+    """
     # Constructeur de la classe DiagrammeDate
     def __init__(self, fichier_csv):
-            self.fichier_csv = fichier_csv
+        """
+        Initialise une instance de la classe DiagrammeDate.
+
+        Paramètres:
+        - fichier_csv (str): Le chemin vers le fichier CSV contenant les données des radars.
+        """
+        self.fichier_csv = fichier_csv
 
     # Fonction permettant d'avoir une série avec seulement la date d'installation
     def extraction_annee(self):
+        """
+        Extrait les années d'installation des radars à partir du fichier CSV.
+
+        Returns:
+        - pandas.Series: Une série contenant les années d'installation.
+        """
         # On place les données du fichier CSV dans une DataFrame
         data = pd.read_csv(self.fichier_csv, sep=';')
 
@@ -23,9 +38,14 @@ class DiagrammeDate:
 
         return data['annee']
 
-
     # Fonction qui affiche le diagramme sur les dates d'installation
     def affiche_diagramme_date_install(self):
+        """
+        Affiche un diagramme montrant le nombre de radars installés par année.
+
+        Returns:
+        - plotly.graph_objs.Figure: L'objet Figure de Plotly représentant le diagramme.
+        """
         data = pd.read_csv('assets/data/radars.csv', sep=';')
         data['annee'] = self.extraction_annee()
 
@@ -49,7 +69,7 @@ class DiagrammeDate:
                               y=0.9,  # Met le titre en haut
                               xanchor='center',
                               yanchor='top',
-                             )
+                          )
                           )
 
         # Permet de formatter l'axe des abscisses en affichant une année sur deux

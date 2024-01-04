@@ -1,12 +1,32 @@
+from pathlib import Path
 from dash import Dash, dcc, html, Input, Output
+from models.all_radars_map import AllRadarsMap
 from models.diagramme_date_installation import DiagrammeDate
 from models.diagramme_vitesse_max import DiagrammeVitesse
 from models.histogramme_exces_de_vitesse import Histogramme
+from models.radars_map_count_by_department import RadarMapCountByDepartment
 
 if __name__ == '__main__':
 
     # Initialisation de l'application
     app = Dash(__name__)
+
+    # Dossier ou sera stocké les cartes générées
+    output_folder = Path("templates")
+
+    # Nom du fichier contenant la carte avec tous les radars
+    radar_map_output_path = output_folder / "all_radars_map.html"
+    # Si le fichier n'existe pas, la carte est généré dans le dossier templates
+    if not radar_map_output_path.exists():
+        radar_map_generator = AllRadarsMap("assets/data/radars.csv")
+        radar_map_generator.generate_map()
+
+    # Nom du fichier contenant la carte avec le nombre de radars par département
+    radar_map_count_by_department_output_path = output_folder / "radar_map_count_by_department.html"
+    # Si le fichier n'existe pas, la carte est généré dans le dossier templatess
+    if not radar_map_count_by_department_output_path.exists():
+        radar_map_count_by_department = RadarMapCountByDepartment("assets/data/radars.csv")
+        radar_map_count_by_department.generate_radar_map()
 
     # Création de l'histogramme
     histogramme = Histogramme('assets/data/opendata-vitesse.csv')
@@ -149,6 +169,15 @@ if __name__ == '__main__':
         [Input('card-dropdown', 'value')]
     )
     def update_card(selected_card):
+        """
+        Met à jour le contenu du conteneur de carte en fonction de la sélection de l'utilisateur.
+
+        Paramètres:
+        - selected_card (str): La valeur sélectionnée dans la liste déroulante des cartes.
+
+        Returns: - dash_html_components.IFrame ou dash_html_components.Div: Un composant HTML Dash représentant la
+        carte ou un message d'instruction en fonction de la sélection de l'utilisateur.
+        """
         if selected_card == 'department_map':
             return html.Iframe(
                 srcDoc=open('templates/radars_map_count_by_department.html', 'r', encoding='utf-8').read(),

@@ -5,26 +5,45 @@ from folium.plugins import MarkerCluster
 
 class AllRadarsMap:
     def __init__(self, csv_path):
-        # Initialisation de la classe avec le chemin du fichier CSV
+        """
+        Initialise une instance de la classe AllRadarsMap.
+
+        Paramètres:
+        - csv_path (str): Le chemin vers le fichier CSV contenant les données des radars.
+        """
         self.radars_data = pd.read_csv(csv_path, sep=';', encoding='utf-8')
         self._clean_data()
 
     def _clean_data(self):
-        # Méthode pour nettoyer les données : suppression des lignes avec des valeurs vides pour latitude, longitude, et vitesse_vehicule_legers_kmh
+        """
+        Nettoie les données en supprimant les lignes avec des valeurs vides pour latitude, longitude,
+        et vitesse_vehicule_legers_kmh.
+        """
         self.radars_data = self.radars_data.dropna(subset=['latitude', 'longitude', 'vitesse_vehicule_legers_kmh'])
 
     def _create_marker_cluster(self, map_obj):
-        # Méthode pour créer un cluster de marqueurs sur la carte
+        """
+        Crée un cluster de marqueurs sur la carte en fonction des données des radars.
+
+        Paramètres:
+        - map_obj (folium.Map): L'objet carte Folium sur lequel les marqueurs seront ajoutés.
+        """
         marker_cluster = MarkerCluster().add_to(map_obj)
         for index, row in self.radars_data.iterrows():
             # Ajout d'un marqueur pour chaque radar au cluster
             folium.Marker(
                 location=[row['latitude'], row['longitude']],
-                tooltip=f"Numéro département: {row['departement']} \n Ville: {row['emplacement']} \n Vitesse max: {int(row['vitesse_vehicule_legers_kmh'])} km/h "
+                tooltip=f"Numéro département: {row['departement']} Ville: {row['emplacement']} Vitesse max: {int(row['vitesse_vehicule_legers_kmh'])} km/h"
             ).add_to(marker_cluster)
 
-    def generate_map(self, output_path="all_radars_map.html"):
-        # Méthode pour générer la carte et l'enregistrer en tant que fichier HTML
+    def generate_map(self, output_path="templates/all_radars_map.html"):
+        """
+        Génère une carte Folium avec un cluster de marqueurs représentant tous les radars et enregistre la carte en
+        tant que fichier HTML.
+
+        Paramètres:
+        - output_path (str): Le nom du fichier de sortie pour la carte générée (par défaut: "all_radars_map.html").
+        """
         radar_map = folium.Map(
             location=[self.radars_data['latitude'].mean(), self.radars_data['longitude'].mean()],
             zoom_start=5
@@ -35,8 +54,3 @@ class AllRadarsMap:
 
         # Enregistrement de la carte en tant que fichier HTML
         radar_map.save(output_path)
-
-
-# Utilisation de la classe
-radar_map_generator = AllRadarsMap("../assets/data/radars.csv")
-radar_map_generator.generate_map()
