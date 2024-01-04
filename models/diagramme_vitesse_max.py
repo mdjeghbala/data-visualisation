@@ -5,6 +5,13 @@ import plotly.express as px
 class DiagrammeVitesse:
     """
     Classe permettant de créer un diagramme basé sur les vitesses maximales des radars routiers en France.
+
+    Attributs:
+    - fichier_csv (str): Le chemin vers le fichier CSV contenant les données des radars.
+
+    Methodes:
+    - __init__(fichier_csv: str): Initialise une instance de la classe.
+    - affiche_diagramme_vitesse_max(): Affiche un diagramme analysant les vitesses maximales des radars routiers en France.
     """
     # Constructeur de la classe DiagrammeVitesse
     def __init__(self, fichier_csv):

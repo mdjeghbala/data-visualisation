@@ -16,14 +16,14 @@ if __name__ == '__main__':
 
     # Nom du fichier contenant la carte avec tous les radars
     radar_map_output_path = output_folder / "all_radars_map.html"
-    # Si le fichier n'existe pas, la carte est généré dans le dossier templates
+    # Si le fichier n'existe pas, la carte est générée dans le dossier templates
     if not radar_map_output_path.exists():
         radar_map_generator = AllRadarsMap("assets/data/radars.csv")
         radar_map_generator.generate_map()
 
     # Nom du fichier contenant la carte avec le nombre de radars par département
     radar_map_count_by_department_output_path = output_folder / "radar_map_count_by_department.html"
-    # Si le fichier n'existe pas, la carte est généré dans le dossier templatess
+    # Si le fichier n'existe pas, la carte est généré dans le dossier templates
     if not radar_map_count_by_department_output_path.exists():
         radar_map_count_by_department = RadarMapCountByDepartment("assets/data/radars.csv")
         radar_map_count_by_department.generate_radar_map()

@@ -4,6 +4,18 @@ from folium.plugins import MarkerCluster
 
 
 class AllRadarsMap:
+    """
+    Classe pour générer une carte Folium avec un cluster de marqueurs représentant tous les radars.
+
+    Attributs:
+    - radars_data (pd.DataFrame): Les données des radars à afficher sur la carte.
+
+    Methodes:
+    - __init__(csv_path: str): Initialise une instance de la classe.
+    - _clean_data(): Nettoie les données en supprimant les lignes avec des valeurs vides.
+    - _create_marker_cluster(map_obj: folium.Map): Crée un cluster de marqueurs sur la carte.
+    - generate_map(output_path: str = "templates/all_radars_map.html"): Génère et enregistre la carte en tant que fichier HTML.
+    """
     def __init__(self, csv_path):
         """
         Initialise une instance de la classe AllRadarsMap.
@@ -42,7 +54,7 @@ class AllRadarsMap:
         tant que fichier HTML.
 
         Paramètres:
-        - output_path (str): Le nom du fichier de sortie pour la carte générée (par défaut: "all_radars_map.html").
+        - output_path (str): Le nom du fichier de sortie pour la carte générée (par défaut: "templates/all_radars_map.html").
         """
         radar_map = folium.Map(
             location=[self.radars_data['latitude'].mean(), self.radars_data['longitude'].mean()],

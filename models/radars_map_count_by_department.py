@@ -4,6 +4,23 @@ import branca.colormap as cm
 
 
 class RadarMapCountByDepartment:
+    """
+    Classe pour générer une carte Folium avec des marqueurs représentant le nombre de radars par département.
+
+    Attributs:
+    - colormap (branca.colormap.LinearColormap): Colormap pour la représentation visuelle du nombre de radars.
+    - radars_data (pd.DataFrame): Les données des radars à afficher sur la carte.
+    - output_file (str): Le nom du fichier de sortie pour la carte générée.
+
+    Methodes:
+    - __init__(csv_path: str, output_file: str = "radars_map_count_by_department.html"): Initialise une instance de la classe.
+    - _clean_data(): Nettoie les données en supprimant les lignes avec des valeurs vides.
+    - _aggregate_data(): Agrège les données par département et compte le nombre de radars.
+    - _create_colormap(): Crée une colormap en fonction du nombre de radars par département.
+    - _add_markers(radar_map: folium.Map): Ajoute des marqueurs à la carte en fonction du nombre de radars par département.
+    - _add_legend(radar_map: folium.Map): Ajoute une légende à la carte.
+    - generate_radar_map(output_path: str = "templates/radars_map_count_by_department.html"): Génère la carte et l'enregistre.
+    """
     def __init__(self, csv_path, output_file="radars_map_count_by_department.html"):
         """
         Initialise une instance de la classe RadarMapCountByDepartment.
@@ -67,8 +84,11 @@ class RadarMapCountByDepartment:
 
     def generate_radar_map(self, output_path="templates/radars_map_count_by_department.html"):
         """
-        Génère une carte Folium avec des marqueurs représentant le nombre de radars par département et ajoute une légende.
-        Le résultat est sauvegardé dans le fichier spécifié lors de l'initialisation.
+        Génère une carte Folium avec des marqueurs représentant le nombre de radars par département, ajoute une légende
+        et enregistre la carte en tant que fichier HTML.
+
+        Paramètres:
+        - output_path (str): Le nom du fichier de sortie pour la carte générée (par défaut: "templates/radars_map_count_by_department.html").
         """
         self.colormap = self._create_colormap()
 

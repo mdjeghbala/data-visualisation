@@ -5,6 +5,14 @@ import plotly_express as px
 class Histogramme:
     """
     Classe permettant de créer un histogramme basé sur les excès de vitesse à partir d'un fichier CSV.
+
+    Attributs:
+    - fichier_csv (str): Le chemin vers le fichier CSV contenant les données des excès de vitesse en km/h.
+
+    Methodes:
+    - __init__(fichier_csv: str): Initialise une instance de la classe.
+    - extraction_exces_vitesse(): Extrait les excès de vitesse inférieurs ou égaux à 50 km/h à partir du fichier CSV.
+    - affiche_histo_exces_de_vitesse(): Affiche un histogramme des excès de vitesse inférieurs ou égaux à 50 km/h.
     """
     # Constructeur de la classe Histogramme
     def __init__(self, fichier_csv):

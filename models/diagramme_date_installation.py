@@ -4,7 +4,15 @@ import plotly.express as px
 
 class DiagrammeDate:
     """
-    Classe permettant de créer un diagramme basé sur les dates d'installation des radars à partir d'un fichier CSV.
+    Classe pour créer un diagramme basé sur les dates d'installation des radars à partir d'un fichier CSV.
+
+    Attributs:
+    - fichier_csv (str): Le chemin vers le fichier CSV contenant les données des radars.
+
+    Methodes:
+    - __init__(fichier_csv: str): Initialise une instance de la classe.
+    - extraction_annee(): Extrait les années d'installation des radars.
+    - affiche_diagramme_date_install(): Affiche un diagramme du nombre de radars installés par année.
     """
     # Constructeur de la classe DiagrammeDate
     def __init__(self, fichier_csv):
