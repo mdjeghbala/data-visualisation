@@ -183,10 +183,11 @@ if __name__ == '__main__':
                 srcDoc=open('templates/radars_map_count_by_department.html', 'r', encoding='utf-8').read(),
                 width='100%', height='500px')
         elif selected_card == 'all_radars_map':
-            return html.Iframe(srcDoc=open('templates/all_radars_map.html', 'r', encoding='utf-8').read(), width='100%',
-                               height='500px')
-        else:
-            return html.Div('Sélectionnez une carte à afficher.')
+            return html.Iframe(
+                srcDoc=open('templates/all_radars_map.html', 'r', encoding='utf-8').read(),
+                width='100%', height='500px')
+        #else:
+            #return html.Div('Sélectionnez une carte à afficher.')
 
 
     # Lancement de l'application
