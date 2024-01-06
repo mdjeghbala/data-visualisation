@@ -57,8 +57,10 @@ python main.py
 
 In the console you can access to the dashboard if you `CTRL + Click`  in the link 
 or you can click in this server link http://127.0.0.1:8050/
-You can stop the server with `CTRL + C` in the console
+You can stop the server with `CTRL + C` in the console  
 
+
+  
 # Developer Guide
 
 This guide helps developers understand the project, 
