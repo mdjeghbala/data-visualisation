@@ -102,7 +102,7 @@ The maps and the diagrams are then created in "***main.py***" and integrated to 
 
 ## Workflows
 
-1. Application initialization
+1. Initialization of the application
 2. Radar Map Generation
 3. Visualization Generation
 4. Building the User Interface 
