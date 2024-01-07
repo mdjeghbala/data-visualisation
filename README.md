@@ -116,9 +116,9 @@ The maps and the diagrams are then created in "***main.py***" and integrated to 
 
 ***histogramme_exces_de_vitesse.py***: Contains Histogramme class for generating histogram based on speeding violations.
 
-***diagram_date_installation.py***: Contains DiagramDate class for generating radar installation date diagrams.
+***diagramme_date_installation.py***: Contains DiagramDate class for generating radar installation date diagrams.
 
-***diagram_max_speed.py***: Contains DiagramSpeed class for generating diagrams of maximum recorded speeds.
+***diagramme_vitesse_max.py***: Contains DiagramSpeed class for generating diagrams of maximum recorded speeds.
 
 ### Maps:
 
