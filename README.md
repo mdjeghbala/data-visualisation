@@ -1,5 +1,9 @@
 # Data visualisation project
 
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![Plotly](https://img.shields.io/badge/Plotly-%233F4F75.svg?style=for-the-badge&logo=plotly&logoColor=white)
+![Pandas](https://img.shields.io/badge/pandas-%23150458.svg?style=for-the-badge&logo=pandas&logoColor=white)
+
 The aim of this project is to create a dashboard for visualizing radars in France and overseas territories, using maps, histograms and diagrams.
 
 # User Guide
